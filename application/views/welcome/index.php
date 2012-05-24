@@ -1,27 +1,3 @@
-<script type="text/javascript">
-
-$(document).ready(function() { 
-  var options = { 
-      success:    function(response) {
-        $.each(response.errors,function(index,value){
-          $('.alert-error').show().prepend('<p>'+value+'</p>');
-        });
-        $('.loading').hide(); 
-        if(jQuery.isEmptyObject(response.errors)){
-          location.reload();
-        }
-      },
-      beforeSubmit: function() { 
-        $('.alert-error').hide().html('');
-        $('.loading').show();   
-        return true;  
-      },
-      dataType: 'json'
-  }; 
-
-  $('form').ajaxForm(options); 
-});
-</script>
 <div class="hero-unit">
     <?php if ($template['user']) : ?>
     <form class="well" method="post" action="<?php echo site_url('/'); ?>">
@@ -33,10 +9,10 @@ $(document).ready(function() {
             <input type="checkbox" name="report" value="1" id="report"<?php echo $report == 1 ? ' checked="checked"' : ''; ?>> Reportar como spam.
         </label>-->
         <?php echo recaptcha_get_html(config_item('recaptcha_public_key')); ?>
-        <p class="right"><img class="loading" style="display:none" src="<? echo site_url('static/img/ajax-loader.gif')?>"/><input type="submit" name="send" value="Enviar" class="btn btn-primary" /></p>
+        <p class="right"><img class="loading" style="display:none" src="<? echo site_url('static/img/ajax-loader.gif')?>"/><input type="submit" id="submitForm" name="send" value="Enviar" class="btn btn-primary" /></p>
     </form>
     <?php else : ?>
-    <p class="center"><a href="<?php echo site_url('auth'); ?>"><?php print_img('sign-in-with-twitter.png'); ?></a></p>
+    <p class="center"><a id="login-button" href="<?php echo site_url('auth'); ?>"><?php print_img('sign-in-with-twitter.png'); ?></a></p>
     <?php endif; ?>
 </div>
 

@@ -9,7 +9,6 @@
         <meta name="author" content="">
 
         <?php print_css(array('bootstrap', 'bootstrap-responsive','core')); ?>
-        <link href="../assets/css/e.css" rel="stylesheet">
 
         <!--[if lt IE 9]>
         <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -21,7 +20,7 @@
          };
          </script>
 
-        <?php print_js(array('https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js', 'bootstrap.min','jquery.form')); ?>
+        <?php print_js(array('https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js', 'bootstrap.min','jquery.form', 'core')); ?>
     </head>
 
     <body>
@@ -60,5 +59,16 @@
         <div class="container">
             <?php echo $content; ?>
         </div> <!-- /container -->
+        <script type="text/javascript">
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-32104919-1']);
+            _gaq.push(['_trackPageview']);
+
+            (function() {
+                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+            })();
+        </script>
     </body>
 </html>

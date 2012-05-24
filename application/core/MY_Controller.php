@@ -58,7 +58,9 @@ class MY_Controller extends CI_Controller
         }
 
         if ($this->disable_template || $this->input->is_ajax_request()) {
-            $this->load->view($this->view, $this->data);
+            $this->output->set_content_type('application/json');
+            unset($this->data['template']);
+            $this->output->set_output(json_encode($this->data));
         }else{
             $this->template->load($this->view, $this->data);
         }

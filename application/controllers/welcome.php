@@ -10,7 +10,7 @@ class Welcome extends MY_Controller
 
 	public function index()
   {
-    session_start(); 
+    session_start();
 		if ($this->user) {
 			$error = array();
 
@@ -18,7 +18,7 @@ class Welcome extends MY_Controller
 			$this->data['report'] = $this->input->post('report', 0);
 
 			if ($this->input->post('send')) {
-        $captcha_check = recaptcha_check_answer(config_item('recaptcha_private_key'), $this->input->ip_address(), $this->input->post('recaptcha_challenge_field'), $this->input->post('recaptcha_response_field'));
+        		$captcha_check = recaptcha_check_answer(config_item('recaptcha_private_key'), $this->input->ip_address(), $this->input->post('recaptcha_challenge_field'), $this->input->post('recaptcha_response_field'));
 
 				if (empty($this->data['users'])) {
 					$error[] = 'Debes escribir al menos un usuario.';
@@ -28,7 +28,7 @@ class Welcome extends MY_Controller
 					$error[] = 'Captcha incorrecto.';
 				}
 				if(count($error) == 0) {
-          $result = array();
+          			$result = array();
 					$this->data['result'] = array();
 					$users = $this->_get_users_from_list($this->data['users']);
 
@@ -37,34 +37,28 @@ class Welcome extends MY_Controller
 
 						if ($code == 200) {
 							$this->data['result'][$user] = true;
-              $result[$user] = true;
-            }else{
+			              	$result[$user] = true;
+			            }else{
 							$this->data['result'][$user] = false;
-              $result[$user] = false;
-            }
-          }
-          $_SESSION['result'] = $result;
-				}else{
-					$this->data['error'] = $error;
-        }
-        echo json_encode (
-          array(
-            'errors' => $error
-          )
-        );  
-        die;
-      } else if(isset($_SESSION['result'])) {
-		  	$this->view = 'welcome/end';
-        $this->data['result'] = $_SESSION['result'];   
-        unset($_SESSION['result']);
-      }
+			              	$result[$user] = false;
+			            }
+          			}
+          			$_SESSION['result'] = $result;
+				}
+
+				$this->data['errors'] = $error;
+      		} else if(isset($_SESSION['result'])) {
+				$this->view = 'welcome/end';
+				$this->data['result'] = $_SESSION['result'];
+				unset($_SESSION['result']);
+			}
 		}
 	}
 
-  public function end()
-  {
+	  public function end()
+	  {
 
-  }
+	  }
 
 
 	public function _get_users_from_list($data)
