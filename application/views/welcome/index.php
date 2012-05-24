@@ -23,3 +23,9 @@
         <p><a class="btn" href="<?php echo site_url('about'); ?>">Ver detalles &raquo;</a></p>
     </div>
 </div>
+
+<div class="modal" id="myModal" style="display: none; ">
+  <div class="modal-header">
+    <h3><img class="loading" src="<? echo site_url('static/img/ajax-loader.gif')?>"/> Estamos procesando tus datos...</h3>
+  </div>
+</div>

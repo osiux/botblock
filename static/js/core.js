@@ -4,7 +4,7 @@ $(document).ready(function() {
             $.each(response.errors,function(index,value){
                 $('.alert-error').show().prepend('<p>'+value+'</p>');
             });
-            $('.loading').hide();
+            $('#myModal').modal('toggle');
             if(jQuery.isEmptyObject(response.errors)){
                 location.reload();
             }else{
@@ -14,13 +14,14 @@ $(document).ready(function() {
         },
         beforeSubmit: function() {
             $('.alert-error').hide().html('');
-            $('.loading').show();
             $('#submitForm').addClass('disabled').attr('disabled', 'disabled');
+            $('#myModal').modal('toggle');
             return true;
         },
         dataType: 'json'
     };
 
+    $('#myModal').modal({keyboard: false,show:false,backdrop:'static'});
     $('form').ajaxForm(options);
 
     $('#login-button').click(function() {

@@ -9,8 +9,7 @@ class Welcome extends MY_Controller
 	}
 
 	public function index()
-  {
-    session_start();
+  	{
 		if ($this->user) {
 			$error = array();
 
@@ -43,22 +42,17 @@ class Welcome extends MY_Controller
 			              	$result[$user] = false;
 			            }
           			}
-          			$_SESSION['result'] = $result;
+          			$this->session->set_userdata('result', $result);
 				}
 
 				$this->data['errors'] = $error;
-      		} else if(isset($_SESSION['result'])) {
+      		} else if($this->session->userdata('result')) {
 				$this->view = 'welcome/end';
-				$this->data['result'] = $_SESSION['result'];
-				unset($_SESSION['result']);
+				$this->data['result'] = $this->session->userdata('result');
+				$this->session->unset_userdata('result');
 			}
 		}
 	}
-
-	  public function end()
-	  {
-
-	  }
 
 
 	public function _get_users_from_list($data)
