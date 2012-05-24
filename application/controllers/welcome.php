@@ -28,18 +28,16 @@ class Welcome extends MY_Controller
 					$error[] = 'Captcha incorrecto.';
 				}
 				if(count($error) == 0) {
+          
           $result = array();
-					$this->data['result'] = array();
 					$users = $this->_get_users_from_list($this->data['users']);
 
 					foreach ($users as $user) {
 						$code = $this->tmhOAuth->request('POST', $this->tmhOAuth->url('1/report_spam'), array('screen_name' => $user));
 
 						if ($code == 200) {
-							$this->data['result'][$user] = true;
               $result[$user] = true;
             }else{
-							$this->data['result'][$user] = false;
               $result[$user] = false;
             }
           }
@@ -60,14 +58,8 @@ class Welcome extends MY_Controller
       }
 		}
 	}
-
-  public function end()
-  {
-
-  }
-
-
-	public function _get_users_from_list($data)
+  
+  public function _get_users_from_list($data)
 	{
 		$users = array();
 		$lists = array();

@@ -6,19 +6,22 @@ $(document).ready(function() {
         $.each(response.errors,function(index,value){
           $('.alert-error').show().prepend('<p>'+value+'</p>');
         });
-        $('.loading').hide(); 
+        
+        $('#myModal').modal('toggle');
+        //$('.loading').hide(); 
         if(jQuery.isEmptyObject(response.errors)){
           location.reload();
         }
       },
       beforeSubmit: function() { 
         $('.alert-error').hide().html('');
-        $('.loading').show();   
+        //$('.loading').show();   
+        $('#myModal').modal('toggle');
         return true;  
       },
       dataType: 'json'
   }; 
-
+  $('#myModal').modal({keyboard: false,show:false,backdrop:'static'});
   $('form').ajaxForm(options); 
 });
 </script>
@@ -46,4 +49,10 @@ $(document).ready(function() {
         <p>Todos odiamos el spam. Peor el spam político. Al encontrar un bot podemos reportarlo, pero... ¿por qué no hacerlo más sencillo? Partiendo de la colección de bots obtenida por <a href="http://www.reddit.com/user/santiesteban">santiesteban</a> y publicada <a href="http://santiesteban.org/adiosbots/">aquí</a>, me di a la tarea de crear este sitio que hace todo el proceso más sencillo.</p>
         <p><a class="btn" href="<?php echo site_url('about'); ?>">Ver detalles &raquo;</a></p>
     </div>
+</div>
+
+<div class="modal" id="myModal" style="display: none; ">
+  <div class="modal-header">
+    <h3><img class="loading" src="<? echo site_url('static/img/ajax-loader.gif')?>"/> Estamos procesando tus datos...</h3>
+  </div>
 </div>

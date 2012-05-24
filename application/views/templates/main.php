@@ -21,7 +21,7 @@
          };
          </script>
 
-        <?php print_js(array('https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js', 'bootstrap.min','jquery.form')); ?>
+        <?php print_js(array('https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js', 'bootstrap.min','bootstrap-modal','jquery.form')); ?>
     </head>
 
     <body>
