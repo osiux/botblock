@@ -1,4 +1,7 @@
 <div class="hero-unit">
+    <?php if (isset($errors)) :?>
+    <div class="alert alert-error"><p><?php echo implode('</p><p>', $errors); ?></p></div>
+    <?php endif; ?>
     <h4>Resultado:</h4>
     <ul>
         <?php foreach ($result as $user => $success) : ?>

@@ -34,12 +34,21 @@ class Welcome extends MY_Controller
 					foreach ($users as $user) {
 						$code = $this->tmhOAuth->request('POST', $this->tmhOAuth->url('1/report_spam'), array('screen_name' => $user));
 
+						$response = json_decode($this->tmhOAuth->response['response']);
 						if ($code == 200) {
 							$this->data['result'][$user] = true;
 			              	$result[$user] = true;
+			            }elseif ($code == 403) {
+			            	$error[] = 'Twitter no te deja reportar mas cuentas por el momento :(';
+	              			break;
 			            }else{
 							$this->data['result'][$user] = false;
 			              	$result[$user] = false;
+
+			              	if ($response->errors == 'You are over the limit for spam reports.') {
+			              		$error[] = 'Twitter no te deja reportar mas cuentas por el momento :(';
+		              			break;
+			              	}
 			            }
           			}
           			$this->session->set_userdata('result', $result);
@@ -53,7 +62,6 @@ class Welcome extends MY_Controller
 			}
 		}
 	}
-
 
 	public function _get_users_from_list($data)
 	{
