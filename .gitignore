@@ -1,0 +1,7 @@
+.DS_Store
+botblock.sublime*
+php_errors.log
+application/config/production/*
+!application/config/production/empty
+application/config/development/*
+!application/config/development/empty
