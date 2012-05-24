@@ -20,6 +20,8 @@
             lang: 'es'
          };
          </script>
+
+        <?php print_js(array('https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js', 'bootstrap.min','jquery.form')); ?>
     </head>
 
     <body>
@@ -58,9 +60,5 @@
         <div class="container">
             <?php echo $content; ?>
         </div> <!-- /container -->
-
-        <?php
-        print_js(array('https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js', 'bootstrap.min'));
-        ?>
     </body>
 </html>

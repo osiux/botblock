@@ -1,9 +1,31 @@
+<script type="text/javascript">
+
+$(document).ready(function() { 
+  var options = { 
+      success:    function(response) {
+        $.each(response.errors,function(index,value){
+          $('.alert-error').show().prepend('<p>'+value+'</p>');
+        });
+        $('.loading').hide(); 
+        if(jQuery.isEmptyObject(response.errors)){
+          location.reload();
+        }
+      },
+      beforeSubmit: function() { 
+        $('.alert-error').hide().html('');
+        $('.loading').show();   
+        return true;  
+      },
+      dataType: 'json'
+  }; 
+
+  $('form').ajaxForm(options); 
+});
+</script>
 <div class="hero-unit">
     <?php if ($template['user']) : ?>
     <form class="well" method="post" action="<?php echo site_url('/'); ?>">
-        <?php if (isset($error)) : ?>
-        <div class="alert alert-error"><p><?php echo implode('</p><p>', $error); ?></p></div>
-        <?php endif; ?>
+        <div class="alert alert-error" style="display:none"></div>
         <label for="users">Usuarios y/o listas</labeL>
         <span class="help-block">Escribe usuarios (<em>usuario</em>, <em>@usuario</em> o <em>https://twitter.com/#!/usuario</em>) y/o listas de twitter (<em>https://twitter.com/#!/usuario/nombrelista</em> o <em>usuario/nombrelista</em>), uno por linea, y seran bloqueados y reportados como spam desde tu cuenta.</span>
         <textarea cols="164" rows="20" name="users" id="users"><?php echo $users; ?></textarea>
@@ -11,7 +33,7 @@
             <input type="checkbox" name="report" value="1" id="report"<?php echo $report == 1 ? ' checked="checked"' : ''; ?>> Reportar como spam.
         </label>-->
         <?php echo recaptcha_get_html(config_item('recaptcha_public_key')); ?>
-        <p class="right"><input type="submit" name="send" value="Enviar" class="btn btn-primary" /></p>
+        <p class="right"><img class="loading" style="display:none" src="<? echo site_url('static/img/ajax-loader.gif')?>"/><input type="submit" name="send" value="Enviar" class="btn btn-primary" /></p>
     </form>
     <?php else : ?>
     <p class="center"><a href="<?php echo site_url('auth'); ?>"><?php print_img('sign-in-with-twitter.png'); ?></a></p>
