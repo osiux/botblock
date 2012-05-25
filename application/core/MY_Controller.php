@@ -68,3 +68,8 @@ class MY_Controller extends CI_Controller
         echo $this->output->get_output();
     }
 }
+
+function outputError($tmhOAuth) {
+  echo 'Error: ' . $tmhOAuth->response['response'] . PHP_EOL;
+  tmhUtilities::pr($tmhOAuth);
+}

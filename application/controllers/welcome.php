@@ -13,11 +13,11 @@ class Welcome extends MY_Controller
 		if ($this->user) {
 			$error = array();
 
-			$this->data['users'] = $this->input->post('users', '');
-			$this->data['report'] = $this->input->post('report', 0);
+			$this->data['users'] = request_var('users', '', true);
+			$this->data['report'] = request_var('report', 0);
 
-			if ($this->input->post('send')) {
-        		$captcha_check = recaptcha_check_answer(config_item('recaptcha_private_key'), $this->input->ip_address(), $this->input->post('recaptcha_challenge_field'), $this->input->post('recaptcha_response_field'));
+			if ($this->input->post('recaptcha_challenge_field')) {
+        		$captcha_check = recaptcha_check_answer(config_item('recaptcha_private_key'), $this->input->ip_address(), request_var('recaptcha_challenge_field', ''), request_var('recaptcha_response_field', ''));
 
 				if (empty($this->data['users'])) {
 					$error[] = 'Debes escribir al menos un usuario.';
@@ -25,13 +25,14 @@ class Welcome extends MY_Controller
 
 				if (!$captcha_check->is_valid) {
 					$error[] = 'Captcha incorrecto.';
+				}else{
+					$this->session->set_userdata('is_valid', true);
 				}
-				if(count($error) == 0) {
-          			$result = array();
-					$this->data['result'] = array();
-					$users = $this->_get_users_from_list($this->data['users']);
 
-					foreach ($users as $user) {
+				if(count($error) == 0) {
+					$this->data['userlist'] = $this->_get_users_from_list($this->data['users']);
+
+					/*foreach ($users as $user) {
 						$code = $this->tmhOAuth->request('POST', $this->tmhOAuth->url('1/report_spam'), array('screen_name' => $user));
 
 						$response = json_decode($this->tmhOAuth->response['response']);
@@ -51,14 +52,38 @@ class Welcome extends MY_Controller
 			              	}
 			            }
           			}
-          			$this->session->set_userdata('result', $result);
+          			$this->session->set_userdata('result', $result);*/
 				}
 
 				$this->data['errors'] = $error;
-      		} else if($this->session->userdata('result')) {
-				$this->view = 'welcome/end';
-				$this->data['result'] = $this->session->userdata('result');
-				$this->session->unset_userdata('result');
+      		}
+		}
+	}
+
+	public function end()
+	{
+		//
+	}
+
+	public function report()
+	{
+		$this->data['is_valid'] = $this->session->userdata('is_valid');
+		if ($this->session->userdata('is_valid')) {
+			$user = request_var('user', '');
+			$last = request_var('last', false);
+
+			$code = $this->tmhOAuth->request('POST', $this->tmhOAuth->url('1/report_spam'), array('screen_name' => $user));
+
+			$this->data['user'] = $user;
+			$response = json_decode($this->tmhOAuth->response['response']);
+			if ($code == 200) {
+				$this->data['result'] = true;
+				if ($last) {
+					$this->session->unset_userdata('is_valid');
+				}
+			}else{
+				$this->data['errors'] = 'Twitter no te deja reportar mas cuentas por el momento :(';
+				$this->session->unset_userdata('is_valid');
 			}
 		}
 	}

@@ -28,7 +28,6 @@ class Auth extends MY_Controller
 
             $authurl = $this->tmhOAuth->url("oauth/authenticate", '') .  "?oauth_token=" . $oauth['oauth_token'];
 
-            echo $authurl;
             redirect($authurl);
         }
 
