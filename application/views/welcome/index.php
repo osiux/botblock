@@ -6,7 +6,7 @@
         <span class="help-block">Escribe usuarios (<em>usuario</em>, <em>@usuario</em> o <em>https://twitter.com/#!/usuario</em>) y/o listas de twitter (<em>https://twitter.com/#!/usuario/nombrelista</em> o <em>usuario/nombrelista</em>), uno por linea, y seran bloqueados y reportados como spam desde tu cuenta.</span>
         <textarea cols="164" rows="20" name="users" id="users"><?php echo $users; ?></textarea>
         <?php echo recaptcha_get_html(config_item('recaptcha_public_key')); ?>
-        <p class="right"><img class="loading" style="display:none" src="<? echo site_url('static/img/ajax-loader.gif')?>"/><input type="submit" id="submitForm" name="send" value="Enviar" class="btn btn-primary" /></p>
+        <p class="right"><input type="submit" id="submitForm" name="send" value="Enviar" class="btn btn-primary" /></p>
     </form>
     <?php else : ?>
     <p class="center"><a id="login-button" href="<?php echo site_url('auth'); ?>"><?php print_img('sign-in-with-twitter.png'); ?></a></p>

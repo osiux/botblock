@@ -79,7 +79,7 @@ class Welcome extends MY_Controller
 			if ($code == 200) {
 				$this->data['result'] = true;
 				if ($last) {
-					$this->session->unset_userdata('is_valid');
+					//$this->session->unset_userdata('is_valid');
 				}
 			}else{
 				$this->data['errors'] = 'Twitter no te deja reportar mas cuentas por el momento :(';
